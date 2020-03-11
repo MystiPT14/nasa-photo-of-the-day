@@ -1,23 +1,35 @@
 import React, { useState } from "react";
 import "./App.css";
 import Header from "./components/header";
-import Main from "./components/main";
-import Footer from "./components/footer";
+import DailyPhoto from "./components/nasaData";
+import {getPhoto}  from "./components/nasaData";
+
+const prod_api = "https://api.nasa.gov/planetary/apod?api_key=Pyzu5wzYNu3v05jyADCkMiOUldNYcxeDQ8myhFfs"
 
 
+export default function App() {
+  const [imageDate, updateAPODImages] = useState([]);
 
+  useEffect(() => {
 
-function App() {
+    getPhoto(imageDate, updateAPODImages, prod_api)
+    
+    console.log(imageDate)
+  }
+  ,[imageDate])
 
-  const [photo, setphoto] = useState('')
   return (
     <div className="App">
-      <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun 🚀!
-      </p>
+    
+      <Header siteTitle="NASA Photo Of The Day"/>
+
+      <DailyPhoto 
+      date={imageDate.date} 
+      attribution={imageDate.copyright} 
+      url={imageDate.url}
+      description={imageDate.explanation}
+      />
     </div>
   );
 }
 
-export default App;
